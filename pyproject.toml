@@ -7,9 +7,9 @@ dependencies = [
     "ffmpeg-python",
     "pyqt6>=6.11.0",
     "pytest",
-    "paddlepaddle==3.0.0",
-    "paddleocr==3.0.0",
-    "paddlex==3.0.0",
+    "paddlepaddle==3.2.0",
+    "paddleocr==3.2.0",
+    "paddlex==3.2.0",
     "torchvision",
     "keyboard",
     "pyperclip"

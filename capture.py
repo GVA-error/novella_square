@@ -17,7 +17,7 @@ import sys
 
 BORDER = 20
 PEN_BORDER = 30
-
+os.environ["FLAGS_use_mkldnn"] = "0"
 
 class Overlay(QWidget):
     def __init__(self):
@@ -44,10 +44,12 @@ class Overlay(QWidget):
         # self.mocr = MangaOcr()
         self.ocr = PaddleOCR(
             lang="japan",  # японский язык
+            device="cpu",
             use_doc_orientation_classify=False,
             use_doc_unwarping=False,
             use_textline_orientation=True,
-            device="cpu"
+            text_detection_model_name="PP-OCRv4_server_det",
+            text_recognition_model_name="PP-OCRv4_server_rec",
         )
 
         keyboard.add_hotkey("f12", self.make_screen)
