@@ -1,16 +1,12 @@
 import os
-import threading
 import cv2
 import keyboard
 import numpy as np
 import pyperclip
-from PIL import Image
-from PyQt6.QtCore import Qt, QTimer, pyqtSlot, QRect, QThread, pyqtSignal
-from PyQt6.QtGui import QPainter, QPen
-from PyQt6.QtWidgets import QApplication, QWidget
+from PyQt6.QtCore import Qt, QTimer, QRect
+from PyQt6.QtGui import QPainter, QPen, QIcon, QAction
+from PyQt6.QtWidgets import QApplication, QWidget, QSystemTrayIcon, QMenu
 
-from huggingface_hub import login
-# from manga_ocr import MangaOcr
 from paddleocr import PaddleOCR
 
 import sys
@@ -30,6 +26,21 @@ class Overlay(QWidget):
         self._handling = False
         self.worker = None
 
+        tray = QSystemTrayIcon(self)
+        tray.setIcon(QIcon("resources/icon.ico"))
+
+        menu = QMenu()
+
+        exit_action = QAction("Exit", self)
+        exit_action.triggered.connect(QApplication.quit)
+
+        menu.addAction(exit_action)
+
+        tray.setContextMenu(menu)
+        tray.show()
+
+        self.tray = tray
+
         self.setWindowFlags(
             Qt.WindowType.WindowStaysOnTopHint
             | Qt.WindowType.FramelessWindowHint
@@ -41,8 +52,6 @@ class Overlay(QWidget):
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.make_screen)
-        # self.timer.start(1000)  # 1000 мс = 1 секунда
-        # self.mocr = MangaOcr()
         self.ocr = PaddleOCR(
             lang="japan",  # японский язык
             device="cpu",
@@ -53,9 +62,8 @@ class Overlay(QWidget):
             text_recognition_model_name="PP-OCRv4_server_rec",
         )
 
-        keyboard.add_hotkey("f12", self.make_screen)
+        # keyboard.add_hotkey("f12", self.make_screen)
         keyboard.add_hotkey("alt", self.make_screen)
-        # self.make_screen()
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -63,15 +71,6 @@ class Overlay(QWidget):
         pen.setWidth(PEN_BORDER)
         painter.setPen(pen)
         painter.drawRect(self.rect())
-
-    # def keyPressEvent(self, event):
-    #     if (
-    #         event.key() == Qt.Key.Key_F12
-    #     ):
-    #         self.make_screen()
-    #         return
-    #
-    #     super().keyPressEvent(event)
 
     def make_screen(self):
         if self._handling:
@@ -89,7 +88,7 @@ class Overlay(QWidget):
         )
         pixmap.save("capture.png")
 
-        img = cv2.imread("capture.png")
+        img = cv2.imread("../capture.png")
 
         # диапазон "почти белого"
         lower = np.array([200, 200, 200])
@@ -101,14 +100,11 @@ class Overlay(QWidget):
 
         # cv2.imwrite("capture.png", result)
 
-
         result = self.ocr.predict("capture.png")
         text = []
         for line in result:
             text.append(' '.join(line["rec_texts"]))
         cb_text = '\n'.join(text)
-        #clipboard = QApplication.clipboard()
-        #clipboard.setText(cb_text)
         pyperclip.copy(cb_text)
         self._handling = False
 
@@ -173,22 +169,7 @@ class Overlay(QWidget):
         self._resize_edges = None
 
 
-
 if __name__ == "__main__":
-    # ocr = PaddleOCR(
-    #     lang="japan",
-    #     use_doc_orientation_classify=False,
-    #     use_doc_unwarping=False,
-    #     use_textline_orientation=False,
-    #     device="cpu"
-    # )
-    # result = ocr.predict("capture.png")
-    # text = []
-    # for line in result:
-    #     text.append(' '.join(line["rec_texts"]))
-    # print("|".join(text))
-    # result = ocr.predict("capture.png")
-
     app = QApplication(sys.argv)
     overlay = Overlay()
     overlay.show()
