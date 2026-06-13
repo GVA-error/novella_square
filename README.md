@@ -11,9 +11,11 @@ Ctrl+V:
 ## Why do you need use it?
  - It uses modern and pretty accurate model PP-OCRv5_mobile [link to read more](https://github.com/PADDLEPADDLE/PADDLEOCR)
  - It has simple interface.
+ - No translate just get you text.
 
 ## Install
 ### Windows
+irm https://raw.githubusercontent.com/user/repo/main/install.ps1 | iex
 
 ## How to control it!
  - left mouse buton - change borders
@@ -21,3 +23,7 @@ Ctrl+V:
  - click to tray icon to exit
  - ![tray.png](resources/tray.png)
 
+## TODO
+ - Добавить кастомные цвета в трей пипеткой.
+ - Пункт конфигурации. В том числе цвет.
+ - Обновить инструкию.
