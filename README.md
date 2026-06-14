@@ -7,7 +7,7 @@ Ctrl+V:
 「腰壁を乗り越えて転落、だったわね。 何階かは記事に 書かれていなかった」
 
 ## Main features
- - Modern and pretty accurate model PP-OCRv5_mobile [link to read more](https://github.com/PADDLEPADDLE/PADDLEOCR)
+ - Modern and pretty accurate recognise model PP-OCRv5_mobile [link to read more](https://github.com/PADDLEPADDLE/PADDLEOCR)
  - Simple interface.
  - Just get text in clipboard without translate.
  - Japanese, English recognize.
