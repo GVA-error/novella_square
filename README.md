@@ -26,8 +26,14 @@ Ctrl+V:
 ```powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (iwr https://github.com/GVA-error/novella_square/raw/main/uninstall.ps1).Content"```
 
 
-## How to control it!
+## How to control it
  - left mouse button - change borders size
  - right mouse button - change borders position
  - click right button tray icon to exit
  - ![tray.png](resources/tray.png)
+
+## Python run
+```
+uv sync
+uv run main.py
+```
