@@ -35,7 +35,7 @@ class Overlay(QWidget):
         self.setWindowTitle("Novella square")
 
     def add_hotkeys(self):
-        keyboard.add_hotkey(self.settings.exit_hotkey, lambda : sys.exit(0))
+        keyboard.add_hotkey(self.settings.exit_hotkey, self.exit_action.trigger)
         keyboard.add_hotkey(self.settings.capture_hotkey, self.make_screen)
 
     def add_ocr(self):
@@ -63,13 +63,13 @@ class Overlay(QWidget):
         menu = QMenu()
 
         settings_action = QAction("Config", self)
-        exit_action = QAction("Exit", self)
+        self.exit_action = QAction("Exit", self)
 
         menu.addAction(settings_action)
-        menu.addAction(exit_action)
+        menu.addAction(self.exit_action)
 
         settings_action.triggered.connect(self.show_settings)
-        exit_action.triggered.connect(QApplication.quit)
+        self.exit_action.triggered.connect(QApplication.quit)
 
         tray.setContextMenu(menu)
         tray.show()
