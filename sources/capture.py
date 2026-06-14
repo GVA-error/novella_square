@@ -1,16 +1,14 @@
-import os
 import keyboard
 import pyperclip
 from PyQt6.QtCore import Qt, QRect
 from PyQt6.QtGui import QPainter, QPen, QIcon, QAction, QColor
 from PyQt6.QtWidgets import QApplication, QWidget, QSystemTrayIcon, QMenu
-from configparser import ConfigParser
 
 from paddleocr import PaddleOCR
 
 import sys
 
-from sources.settings import Settings, load_settings
+from sources.settings import load_settings
 from sources.settings_dialog import SettingsDialog
 
 
@@ -166,10 +164,3 @@ class Overlay(QWidget):
         bottom = y >= self.height() - border_width
 
         return left, right, top, bottom
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    overlay = Overlay()
-    overlay.show()
-    sys.exit(app.exec())

@@ -1,7 +1,5 @@
 # novella_square
-Just launch the visual novel.
-Adjust the capture boundaries (black square). 
-Click "alt" or "alt+tab" to put the text in the clipboard.
+Tool for capturing Japanese/English text from visual novels and copying it to clipboard.
 
 ![capture_example.png](resources/capture_example.png)
 
@@ -12,6 +10,7 @@ Ctrl+V:
  - Modern and pretty accurate model PP-OCRv5_mobile [link to read more](https://github.com/PADDLEPADDLE/PADDLEOCR)
  - Simple interface.
  - Just get text in clipboard without translate.
+ - Japanese, English recognize.
 
 ## Install
 #### power shell (recommended)
@@ -25,15 +24,9 @@ Ctrl+V:
 #### cmd
 ```powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (iwr https://github.com/GVA-error/novella_square/raw/main/uninstall.ps1).Content"```
 
-
 ## How to control it
- - left mouse button - change borders size
- - right mouse button - change borders position
+Controls (overlay window):
+ - LMB: resize capture area
+ - RMB: move capture area
  - click right button tray icon to exit
  - ![tray.png](resources/tray.png)
-
-## Python run
-```
-uv sync
-uv run main.py
-```
