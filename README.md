@@ -14,13 +14,13 @@ Ctrl+V:
  - Just get text in clipboard without translate.
 
 ## Install
-#### power shell (recommended)~~~~
+#### power shell (recommended)
 ```irm https://github.com/GVA-error/novella_square/raw/main/install.ps1 | iex```
 #### cmd
 ```powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (iwr https://github.com/GVA-error/novella_square/raw/main/install.ps1).Content"```
 
 ## Deinstall
-delete folder C:\Users\<user nam~~~~e>\AppData\Local\NovellaSquare
+delete folder C:\Users\<user name>\AppData\Local\NovellaSquare
 
 ## How to control it!
  - left mouse button - change borders size
