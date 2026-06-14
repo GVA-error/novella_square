@@ -8,19 +8,19 @@ Click "alt" or "alt+tab" to put the text in the clipboard.
 Ctrl+V:
 「腰壁を乗り越えて転落、だったわね。 何階かは記事に 書かれていなかった」
 
-## Why do you need use it?
+## Main features
  - Modern and pretty accurate model PP-OCRv5_mobile [link to read more](https://github.com/PADDLEPADDLE/PADDLEOCR)
  - Simple interface.
- - Just get text without translate.
+ - Just get text in clipboard without translate.
 
 ## Install
-#### power shell
-```irm https://raw.githubusercontent.com/user/repo/main/install.ps1 | iex```
+#### power shell (recommended)~~~~
+```irm https://github.com/GVA-error/novella_square/raw/main/install.ps1 | iex```
 #### cmd
-```powershell -NoProfile -ExecutionPolicy Bypass -Command "(iex https://raw.githubusercontent.com/user/repo/main/install.ps1).Content"```
+```powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (iwr https://github.com/GVA-error/novella_square/raw/main/install.ps1).Content"```
 
 ## Deinstall
-delete folder C:\Users\<user name>\AppData\Local\NovellaSquare
+delete folder C:\Users\<user nam~~~~e>\AppData\Local\NovellaSquare
 
 ## How to control it!
  - left mouse button - change borders size
