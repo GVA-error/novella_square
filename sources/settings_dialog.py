@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QPushButton,
     QLineEdit,
-    QColorDialog, QGridLayout, QLabel, QSpinBox,
+    QColorDialog, QGridLayout, QLabel, QSpinBox, QLayout,
 )
 
 from sources.capture_button import KeyCaptureButton
@@ -16,16 +16,15 @@ from sources.settings import save_settings
 class SettingsDialog(QDialog):
     def __init__(self, parent, settings):
         super().__init__(parent=parent)
+        self.parent = parent
         self.settings = settings
 
         self.capture_edit = KeyCaptureButton(
             settings.capture_hotkey
         )
-
         self.exit_edit = KeyCaptureButton(
             settings.exit_hotkey
         )
-
         self.color_button = QPushButton(
             settings.border_color
         )
@@ -35,7 +34,7 @@ class SettingsDialog(QDialog):
         )
         self.border_width = QSpinBox()
         self.border_width.setMinimum(1)
-        self.border_width.setMaximum(100)
+        self.border_width.setMaximum(200)
         self.border_width.setValue(settings.border_width)
 
         layout = QGridLayout(self)
@@ -63,11 +62,15 @@ class SettingsDialog(QDialog):
         self.setWindowTitle("Config")
         self.update_color_button()
 
+        layout.setSizeConstraint(QLayout.SizeConstraint.SetFixedSize)
+
+
     def update_settings_value(self):
         self.settings.capture_hotkey = self.capture_edit.key_name
         self.settings.exit_hotkey = self.exit_edit.key_name
         self.settings.border_width = self.border_width.value()
         save_settings(self.settings)
+        self.parent.update()
 
     def select_color(self):
         color = QColorDialog.getColor()

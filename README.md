@@ -24,8 +24,5 @@ irm https://raw.githubusercontent.com/user/repo/main/install.ps1 | iex
  - ![tray.png](resources/tray.png)
 
 ## TODO
- - Добавить кастомные цвета в трей пипеткой.
- - Пункт конфигурации. В том числе цвет и толщину линий.
  - Обновить инструкию.
  - скрипт удаления
- - нс иконка
