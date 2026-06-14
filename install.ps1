@@ -114,3 +114,5 @@ $shortcut.IconLocation = "$InstallDir\resources\NS_logo_128.ico"
 $shortcut.Save()
 
 Set-Location "$env:LOCALAPPDATA"
+
+Write-Host "Done"

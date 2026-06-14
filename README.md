@@ -19,8 +19,12 @@ Ctrl+V:
 #### cmd
 ```powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (iwr https://github.com/GVA-error/novella_square/raw/main/install.ps1).Content"```
 
-## Deinstall
-delete folder C:\Users\<user name>\AppData\Local\NovellaSquare
+## Uninstall
+#### power shell (recommended)
+```irm https://github.com/GVA-error/novella_square/raw/main/uninstall.ps1 | iex```
+#### cmd
+```powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (iwr https://github.com/GVA-error/novella_square/raw/main/uninstall.ps1).Content"```
+
 
 ## How to control it!
  - left mouse button - change borders size
