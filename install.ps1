@@ -110,6 +110,6 @@ $shortcut = $shell.CreateShortcut(
 )
 $shortcut.TargetPath = $BatFile
 $shortcut.WorkingDirectory = $InstallDir
-$shortcut.IconLocation = "$InstallDir\resources\icon.ico"
+$shortcut.IconLocation = "$InstallDir\resources\NS_logo_128.ico"
 $shortcut.Save()
 
