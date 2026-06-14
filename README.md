@@ -15,7 +15,7 @@ Ctrl+V:
 
 ## Install
 #### power shell
-```irm https://raw.githubusercontent.com/user/repo/main/install.ps1 | iex```~~~~
+```irm https://raw.githubusercontent.com/user/repo/main/install.ps1 | iex```
 #### cmd
 ```powershell -NoProfile -ExecutionPolicy Bypass -Command "(iex https://raw.githubusercontent.com/user/repo/main/install.ps1).Content"```
 
