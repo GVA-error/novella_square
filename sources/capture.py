@@ -2,7 +2,7 @@ import os
 import keyboard
 import pyperclip
 from PyQt6.QtCore import Qt, QRect
-from PyQt6.QtGui import QPainter, QPen, QIcon, QAction
+from PyQt6.QtGui import QPainter, QPen, QIcon, QAction, QColor
 from PyQt6.QtWidgets import QApplication, QWidget, QSystemTrayIcon, QMenu
 from configparser import ConfigParser
 
@@ -10,13 +10,15 @@ from paddleocr import PaddleOCR
 
 import sys
 
-BORDER = 20
-PEN_BORDER = 30
-os.environ["FLAGS_use_mkldnn"] = "0"
+from sources.settings import Settings, load_settings
+from sources.settings_dialog import SettingsDialog
+
 
 class Overlay(QWidget):
     def __init__(self):
         super().__init__()
+        self.icon = QIcon("resources/NS_logo_128.ico")
+
         self._resizing = False
         self._last_button = None
         self._resize_edges = None
@@ -24,25 +26,23 @@ class Overlay(QWidget):
         self._start_geometry = None
         self._handling = False
         # Default settings
-        self.capture_hotkey = "alt"
-        self.exit_hotkey = "f11"
-        self.language = "japan"
-        self.start_hidden = True
+        self.settings = load_settings()
 
-        self.read_config()
         self.add_tray()
         self.add_square()
         self.add_ocr()
         self.add_hotkeys()
 
+        self.setWindowIcon(self.icon)
+        self.setWindowTitle("Novella square")
 
     def add_hotkeys(self):
-        keyboard.add_hotkey(self.exit_hotkey, lambda : sys.exit(0))
-        keyboard.add_hotkey(self.capture_hotkey, self.make_screen)
+        keyboard.add_hotkey(self.settings.exit_hotkey, lambda : sys.exit(0))
+        keyboard.add_hotkey(self.settings.capture_hotkey, self.make_screen)
 
     def add_ocr(self):
         self.ocr = PaddleOCR(
-            lang="japan",
+            lang=self.settings.language,
             device="cpu",
             use_doc_orientation_classify=False,
             use_doc_unwarping=False,
@@ -61,31 +61,27 @@ class Overlay(QWidget):
 
     def add_tray(self):
         tray = QSystemTrayIcon(self)
-        tray.setIcon(QIcon("resources/icon.ico"))
-
+        tray.setIcon(self.icon)
         menu = QMenu()
 
+        settings_action = QAction("Config", self)
         exit_action = QAction("Exit", self)
-        exit_action.triggered.connect(QApplication.quit)
 
+        menu.addAction(settings_action)
         menu.addAction(exit_action)
+
+        settings_action.triggered.connect(self.show_settings)
+        exit_action.triggered.connect(QApplication.quit)
 
         tray.setContextMenu(menu)
         tray.show()
         self.tray = tray
 
-    def read_config(self):
-        config = ConfigParser()
-        config.read("config.ini")
-        self.capture_hotkey = config["hotkeys"]["capture"]
-        self.exit_hotkey = config["hotkeys"]["exit"]
-        self.language = config["ocr"]["language"]
-        self.start_hidden = config.getboolean("app", "start_hidden")
-
     def paintEvent(self, event):
         painter = QPainter(self)
-        pen = QPen()
-        pen.setWidth(PEN_BORDER)
+        border_color = QColor(self.settings.border_color)
+        pen = QPen(border_color)
+        pen.setWidth(self.settings.border_width)
         painter.setPen(pen)
         painter.drawRect(self.rect())
 
@@ -111,27 +107,17 @@ class Overlay(QWidget):
         cb_text = '\n'.join(text)
         pyperclip.copy(cb_text)
         self._handling = False
-        print(text)
 
-
-    def _get_edges(self, pos):
-        x = pos.x()
-        y = pos.y()
-
-        left = x <= BORDER
-        right = x >= self.width() - BORDER
-        top = y <= BORDER
-        bottom = y >= self.height() - BORDER
-
-        return left, right, top, bottom
+    def show_settings(self):
+        dlg = SettingsDialog(parent=self, settings=self.settings)
+        if dlg.exec():
+            dlg.save_settings()
 
     def mousePressEvent(self, event):
         if event.button() not in [Qt.MouseButton.LeftButton, Qt.MouseButton.RightButton]:
             return
         self._last_button = event.button()
-
         edges = self._get_edges(event.pos())
-
         if any(edges):
             self._resizing = True
             self._resize_edges = edges
@@ -143,11 +129,8 @@ class Overlay(QWidget):
             return
 
         delta = event.globalPosition().toPoint() - self._start_pos
-
         left, right, top, bottom = self._resize_edges
-
         rect = QRect(self._start_geometry)
-
         if self._last_button == Qt.MouseButton.RightButton:
             rect.setLeft(rect.left() + delta.x())
             rect.setRight(rect.right() + delta.x())
@@ -165,13 +148,24 @@ class Overlay(QWidget):
 
         min_width = 50
         min_height = 50
-
         if rect.width() >= min_width and rect.height() >= min_height:
             self.setGeometry(rect)
 
     def mouseReleaseEvent(self, event):
         self._resizing = False
         self._resize_edges = None
+
+    def _get_edges(self, pos):
+        x = pos.x()
+        y = pos.y()
+
+        border_width = self.settings.border_width / 2
+        left = x <= border_width
+        right = x >= self.width() - border_width
+        top = y <= border_width
+        bottom = y >= self.height() - border_width
+
+        return left, right, top, bottom
 
 
 if __name__ == "__main__":
