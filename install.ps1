@@ -96,7 +96,7 @@ $BatFile = "$InstallDir\run.bat"
 @"
 @echo off
 cd /d "$InstallDir"
-uv run sources\capture.py
+uv run main.py
 "@ | Out-File $BatFile -Encoding ascii
 
 # =========================
