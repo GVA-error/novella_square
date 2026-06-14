@@ -14,15 +14,16 @@ Ctrl+V:
  - Just get text without translate.
 
 ## Install
-### Windows
-irm https://raw.githubusercontent.com/user/repo/main/install.ps1 | iex
+#### power shell
+`irm https://raw.githubusercontent.com/user/repo/main/install.ps1 | iex`
+#### cmd
+`powershell -NoProfile -ExecutionPolicy Bypass -Command "(iex https://raw.githubusercontent.com/user/repo/main/install.ps1).Content"`
 
+## Deinstall
+delete folder C:\Users\<user name>\AppData\Local\NovellaSquare
+~~~~
 ## How to control it!
  - left mouse button - change borders size
  - right mouse button - change borders position
- - click to tray icon to exit
+ - click right button tray icon to exit
  - ![tray.png](resources/tray.png)
-
-## TODO
- - Обновить инструкию.
- - скрипт удаления
