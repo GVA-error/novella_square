@@ -98,7 +98,12 @@ class Overlay(QWidget):
             self.height()
         )
         pixmap.save("capture.png")
-        result = self.ocr.predict("capture.png")
+        try:
+            result = self.ocr.predict("capture.png")
+        except Exception as e:
+            print(f"ERROR: try to restore after {str(e)}")
+            self.add_ocr()
+
         text = []
         for line in result:
             text.append(' '.join(line["rec_texts"]))
